@@ -17,7 +17,7 @@
     $: isTouched = username.length > 0;
     $: isTaken = isValid && !isAvailable && !loading;
     
-    
+    // TODO ADD FIREBASE SECURITY RULES
     function checkAvailability() {
       isAvailable = false;
       clearTimeout(debounceTimer);

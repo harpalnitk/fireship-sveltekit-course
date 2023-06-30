@@ -51,3 +51,69 @@ function userStore() {
 }
 
 export const user = userStore();
+
+
+
+//userData store
+
+// export const userData = writable<any>(null);
+
+// user.subscribe((user)=> {
+//   if(user){
+//     const docRef = doc(db,`users/${user.uid}`);
+//     onSnapshot(docRef, (snapshot)=>{
+//       userData.set(snapshot.data());
+//     })
+//   }
+// });
+
+//! THE ABOVE IS IMPLEMENTED GENERICALLY BELOW
+
+
+
+// generic writable document store implemented 
+
+/**
+ * @param  {string} path document path or reference
+ * @param  {any} startWith optional default data
+ * @returns a store with realtime updates on document data
+ */
+export function docStore<T>(
+  path: string,
+) {
+  let unsubscribe: () => void;
+
+  const docRef = doc(db, path);
+
+  const { subscribe } = writable<T | null>(null, (set) => {
+    unsubscribe = onSnapshot(docRef, (snapshot) => {
+      set((snapshot.data() as T) ?? null);
+    });
+
+    return () => unsubscribe();
+  });
+
+  return {
+    subscribe,
+    ref: docRef,
+    id: docRef.id,
+  };
+}
+
+interface UserData {
+  username: string;
+  bio: string;
+  photoURL: string;
+  published: boolean;
+  links: any[];
+}
+
+
+//derived stores is a svelte feature
+export const userData: Readable<UserData | null> = derived(user, ($user, set) => { 
+  if ($user) {
+    return docStore<UserData>(`users/${$user.uid}`).subscribe(set);
+  } else {
+    set(null); 
+  }
+});  
