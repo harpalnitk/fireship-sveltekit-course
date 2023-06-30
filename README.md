@@ -358,6 +358,32 @@ export const DELETE:RequestHandler = async ()=>{
 
 
 
+### TAILWIND CSS INSTALLATION
+> npm install -D tailwindcss postcss autoprefixer
+> npx tailwindcss init -p
+
+1. add 
+content: ['./src/**/*.{html,js,svelte,ts}'],
+in tailwind.config.js file
+2. create app.css file in src dir
+3. add following in app.css file
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+4. import '../app.css'; in root layout file
+
+### INSTALL DAISYUI
+>npm i -D daisyui@latest
+
+1. add to tailwind.config.js
+ plugins: [require("daisyui")],
+
+ in app.html add
+ <html lang="en" data-theme="dark">
+
+ which is dark theme of daisy
+
+
 
 
 
