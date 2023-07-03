@@ -384,6 +384,25 @@ in tailwind.config.js file
  which is dark theme of daisy
 
 
+ ### DEPLOYMENT
+ >npm i -g firebase-tools
+ >firebase login
+
+ ## sveltekit hosting is only experimental on firebase
+ # we need to enable this feature on the CLI
+ > firebase experiments:enable webframeworks
+
+ >firebase init hosting
+
+ it will automatically detect that we are in sveltekit project
+
+ On completion it will create firebase.json file and .firebaserc file
+ >firebase deploy
+  to push the code to the cloud
+
+  ### need subscription to cloud functions
+
+
 
 
 

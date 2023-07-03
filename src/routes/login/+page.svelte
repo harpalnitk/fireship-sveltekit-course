@@ -8,20 +8,27 @@
 	//for further uath checks
     const credential = await signInWithPopup(auth, provider);
 	console.log(credential);
-    // const idToken = await credential.user.getIdToken();
-    // const res = await fetch("/api/signin", {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //     // 'CSRF-Token': csrfToken  // HANDLED by sveltekit automatically
-    //   },
-    //   body: JSON.stringify({ idToken }),
-    // });
+
+  //creating cookie on the server and setting it in the browser
+  //for server side authentication
+    const idToken = await credential.user.getIdToken();
+    const res = await fetch("/api/signin", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        //csrf token for cross site request forgery attacks
+        //but sveltekit does this automatically
+        //so no need to set csrf token
+        // 'CSRF-Token': csrfToken  // HANDLED by sveltekit automatically
+      },
+      body: JSON.stringify({ idToken }),
+    });
   }
 
   async function signOutSSR() {
-    // const res = await fetch("/api/signin", { method: "DELETE" });
-    // await signOut(auth);
+    //delete the server generated cookie when the user signs out
+    const res = await fetch("/api/signin", { method: "DELETE" });
+    await signOut(auth);
   }
 
 
